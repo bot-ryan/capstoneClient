@@ -7,8 +7,19 @@ import BackBtn from '@mui/material/Button';
 import React, { useState, useEffect } from 'react';
 import { SERVER, HOME_SCREEN, JOIN_LOBBY } from '../../constants/routes';
 import * as Colour from '../../constants/colours';
+import * as Settings from '../../constants/gameSettings';
 import audio from './Audio/switch_007.ogg';
 import axios from 'axios';
+import {
+  createPlayer,
+  updatePlayer,
+  validatePlayerCreation,
+  getPlayerColour
+} from '../Functions/PlayerFunctions';
+import {
+  updateGamePlayers,
+  updateHost
+} from '../Functions/GameFunctions';
 
 function RegCompany() {
   let navigate = useNavigate();
@@ -25,37 +36,13 @@ function RegCompany() {
 
   const [player, setPlayer] = useState({
     name: "",
-    capital: 200,
-    score: 0
+    capital: Settings.INITIAL_CAPITAL,
+    score: 0,
+    host: host,
+    ready: true
   })
 
-  //Player API    
-  const createPlayer = () => (
-    client.post(`/player/create`,{
-      name: player?.name,
-      capital: player?.capital,
-      score: 0,
-      colour: getColour(),
-      host: host
-    })
-    .then(res => {
-      updateGamePlayers(res?.data)
-      return res;
-    })
-    .then(res => {
-      if(host) {
-        updateHost(res?.data?._id)
-      }
-      return res;
-    })
-    .then(res => {
-      navigate(`/${gameID}/${res?.data?._id}/loading`, {state: {host: host}})
-    })
-    .catch(function (error) {
-        console.log(error);
-    })
-  );
-
+  //Player API
   const getPlayer = () => (
     client.get(`/player/${playerID}`)
     .then(res => {
@@ -65,21 +52,6 @@ function RegCompany() {
         console.log(error);
     })
   )
-  
-  const updatePlayer = () => (
-    client.put(`/player/${playerID}`,{
-      name: player?.name,
-      capital: player?.capital,
-      score: player?.score
-    })
-    .then(res => {
-      setPlayer(res?.data)
-      navigate(`/${gameID}/${res?.data?._id}/loading`, {state: {host: host}})
-    })
-    .catch(function (error) {
-        console.log(error);
-    })
-  );
 
   useEffect(() => {
     if(playerID != null){
@@ -102,84 +74,38 @@ function RegCompany() {
       console.log(e);
     }
   };
-    
-  // const updateGamePlayers = (player) => (
-  //   console.log("UpdateGamePlayers", player,game?.players),
-  //   client.patch(`/game/${gameID}`,{
-  //     // players: game?.players?.push({
-  //     //   _id: player?._id,
-  //     //   name: player?.name,
-  //     //   capital: player?.capital,
-  //     //   score: player?.score,
-  //     //   concessions: player?.concessions,
-  //     //   colour: player?.colour,
-  //     //   host: player?. host
-  //     // }),
-  //     players:[...game?.players,player]
-  //   })
-  //   .then(res => {
-  //     console.log("UpdateGamePlayers res",res)
-  //   })
-  //   .catch(function (error) {
-  //       console.log(error);
-  //   })
-  // );
-    
-  const updateGamePlayers = (player) => (
-    console.log("UpdateGamePlayers", player,game?.players),
-    client.patch(`/game/${gameID}/${player?._id}`)
-    .then(res => {
-      console.log("UpdateGamePlayers res",res)
-    })
-    .catch(function (error) {
-        console.log(error);
-    })
-  );
-    
-  const updateHost = (id) => (
-    client.patch(`/game/${gameID}`,{
-      gamePin: game?.gamePin,
-      round: game?.round,
-      host: id
-    })
-    .then(res => {
-      console.log("UpdateHost")
-    })
-    .catch(function (error) {
-        console.log(error);
-    })
-  );
 
   useEffect(() => {
     getGame();
   }, []);
 
-  const getColour = () => {
-    var colour = Colour.BLUE;
-    switch(game?.players?.length) {
-      case 0:
-        colour = Colour.ORANGE;
-        break;
-      case 1:
-        colour = Colour.PURPLE;
-        break;
-      case 2:
-        colour = Colour.GREEN;
-        break;
-      default:
-        colour = Colour.BLUE;
-    }
-
-    return colour;
-  }
-
   const handleReady = () =>{
     playSound();
-    if(playerID == null) {   
-      createPlayer();
+    //create new player
+    if(playerID == null) {
+      validatePlayerCreation(gameID).then((validated) => {
+        if(validated) {
+          getPlayerColour(gameID).then((colour) => {
+            createPlayer(player, colour).then(player => {
+              const newPlayerID = player?._id;
+              updateGamePlayers(newPlayerID,gameID).then(res => {
+                updateHost(newPlayerID,gameID).then(res => {
+                  navigate(`/${gameID}/${newPlayerID}/loading`, {state: {host: host}})
+                })
+              })
+            });
+          })
+        }
+        else {
+          alert('Lobby is full.')
+        }
+      })
     }
+    //update existing player
     else {
-      updatePlayer();
+      updatePlayer(player).then((res) => {
+        navigate(`/${gameID}/${playerID}/loading`, {state: {host: host}})
+      })
     }
   }
   

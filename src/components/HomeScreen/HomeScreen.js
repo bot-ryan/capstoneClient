@@ -17,7 +17,7 @@ import React, { useEffect, useState } from 'react';
 import audio from './Audio/switch_007.ogg';
 import axios from 'axios';
 import { SERVER,JOIN_LOBBY,HOME_SCREEN } from '../../constants/routes';
-import { resetGame } from '../Functions/GameFunctions';
+import { resetGame } from '../Functions/ConcessionFunctions';
 
 function HomeScreen() {
 
@@ -27,7 +27,7 @@ function HomeScreen() {
   const createGame = () => (
     client.post(`/game/create`,{
       gamePin: createGamePin(),
-      round: 1,
+      round: 0,
       maxRounds: 20,
       players: [],
       host: '-'
