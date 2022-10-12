@@ -27,7 +27,14 @@ import axios from 'axios';
 import {SERVER} from '../../constants/routes';
 import {UNOWNED,OWNED,EXPLORED,DEVELOPED} from '../../constants/concessionStates';
 import * as Colour from '../../constants/colours';
+import * as Settings from '../../constants/gameSettings';
 import io from 'socket.io-client';
+import {
+  getAllConcessions,
+  getNoOwnedLand,
+  buyConcession,
+  getConcession
+} from '../Functions/ConcessionFunctions';
 
 var socket;
 
@@ -134,7 +141,9 @@ function MainScreen() {
     getAllPlayers();
 
     console.log("initial GetAllConcession")
-    getAllConcessions();
+    getAllConcessions().then(data => {
+      setConcessions(data);
+    });
     
     console.log("initial GetPlayer")
     getPlayer(playerID);
@@ -143,13 +152,8 @@ function MainScreen() {
     getGame();
   }, [])
 
-  // useEffect(() => {
-  //   socket = io(SERVER);
-  // },[])
-
   useEffect(() => {
     console.log("Concession useeffect", concession)
-    getOwnerName()
     if(concession != null && players != null) {
       getCellImage(concession);
     }
@@ -182,26 +186,7 @@ function MainScreen() {
     }
   })
 
-  //Concession API  
-  const getAllConcessions = () => {
-    try{
-      client.get(`/concession`)
-      .then(res => {
-        console.log("getAllConcessions",res)
-        var arr = [];
-        res.data.map(v => {
-          arr = [...arr, v];
-        })
-        setConcessions(arr)
-      })
-      .catch(function (error) {
-          console.log(error);
-      })
-    } catch(e) {
-      console.log(e);
-    }
-  };
-
+  //Concession API
   const updateConcession = (id, newStat) => {
     try{
       client.put(`concession/${id}`,{
@@ -212,47 +197,9 @@ function MainScreen() {
       }).then(res => {
         console.log("updateConcession", res)
         getConcessionByID(concession?._id);
-        getAllConcessions()
-      })
-      .catch(function (error) {
-          console.log(error);
-      })
-    } catch(error) {
-      console.log(error);
-    }
-  }
-
-  const buyConcession = (id) => {
-    try{      
-      client.get(`/concession`)
-      .then(res => {
-        console.log("getAllConcessions",res)
-        var arr = [];
-        res.data.map(v => {
-          arr = [...arr, v];
+        getAllConcessions().then(data => {
+          setConcessions(data);
         })
-        setConcessions(arr)
-      })
-      .then(res => {
-        if(concessions?.find(conc => conc?._id == id)?.status == UNOWNED) {
-          client.put(`concession/${id}`,{
-            location: concession?.location,
-            cost: concession?.cost,
-            resource: concession?.resource,
-            status: OWNED,
-            owner: playerID
-          }).then(res => {
-            console.log("updateConcession", res)
-            getConcessionByID(concession?._id);
-            getAllConcessions()
-          })
-          .catch(function (error) {
-              console.log(error);
-          })
-        }
-        else {
-          console.log("Concession owned", concessions?.find(conc => conc?._id == id))
-        }
       })
       .catch(function (error) {
           console.log(error);
@@ -276,7 +223,9 @@ function MainScreen() {
       }).then(res => {
         console.log("resetConcession", res)
         getConcessionByID(conc?._id);
-        getAllConcessions()
+        getAllConcessions().then(data => {
+          setConcessions(data);
+        });
       })
       .catch(function (error) {
           console.log(error);
@@ -345,14 +294,14 @@ function MainScreen() {
   }
 
   const updatePlayerCapitalScore = (capital, score) => (
-    client.put(`/player/${player?._id}`,{
+    client.patch(`/player/${player?._id}`,{
       name: player?.name,
       capital: capital,
       score: score
     })
     .then(res => {
       console.log("updatePlayerCapitalScore",res, capital)
-      getPlayer();
+      getPlayer(playerID);
     })
     .catch(function (error) {
         console.log(error);
@@ -360,7 +309,10 @@ function MainScreen() {
   );
 
   const updatePlayerReady = (ready) => {
-    client.put(`/player/${player?._id}`,{
+    client.patch(`/player/${player?._id}`,{
+      name: player?.name,
+      capital: player?.capital,
+      score: player?.score,
       ready: ready
     })
     .then(res => {
@@ -372,7 +324,7 @@ function MainScreen() {
     })
   }
 
-  const getOwnerName = () => {
+  const getOwnerName = async() => {
     if(concession?.owner != "") {
       players?.map((v) => {
           if(v?._id == concession?.owner) {
@@ -526,11 +478,35 @@ function MainScreen() {
   const buyOnClick = () => {
     playSound();
     console.log("buyOnClick",concession)
+    //check sufficient capital
     if(player?.capital >= (concession?.cost/1000)) {
-      var capital = player?.capital - (concession?.cost/1000) + calcProfit();
-      var score = player?.score + 1;
-      updatePlayerCapitalScore(capital,score);
-      buyConcession(concession?._id);
+      //check ownership
+      getNoOwnedLand(playerID).then(land => {
+        console.log("land",land);
+        if(land < Settings.MAX_LAND){
+          var capital = player?.capital - (concession?.cost/1000) + calcProfit();
+          var score = player?.score + 1;
+          updatePlayerCapitalScore(capital,score);
+          buyConcession(concession?._id, playerID).then(res => {
+            console.log("updateConcession", res);
+            getConcession(concession?._id).then(data => {
+              console.log("getConcessionByID",data);
+              setConcession(data);
+            }).then(data => {
+              getAllConcessions().then(data => {
+                setConcessions(data);
+              }).then(res => {
+                getPlayer(playerID).then(data => {
+                  setPlayer(data);
+                });
+              })
+            })
+          })
+        }
+        else {
+          alert("Max undeveloped land owned. Please explore or develop your land.");
+        }
+      })
     }
     else {
       alert("Insufficent capital.");

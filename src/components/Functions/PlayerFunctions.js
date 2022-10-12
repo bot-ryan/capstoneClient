@@ -7,6 +7,12 @@ import { getGame } from './GameFunctions';
 const client = axios.create({baseURL: `${Routes.SERVER}`});
 
 //Player API
+export const getPlayer = async(id) => {
+  client.get(`/player/${id}`).catch(function (error) {
+      console.log(error);
+  })
+}
+
 export const createPlayer = async(player, colour) => {
     const req = await client.post(`/player/create`,{
       name: player?.name,
@@ -32,6 +38,19 @@ export const updatePlayer = async(player) => {
       console.log(error);
   })
   const data = await req?.data;
+  return data;
+};
+    
+export const updatePlayerConcessions = async(concessionID, id) => {
+  console.log("updatePlayerConcessions",concessionID,id);
+  const req = await client.patch(`/player/${id}/${concessionID}`)
+  .then(res => {
+    console.log("updatePlayerConcessions res",res)
+  })
+  .catch(function (error) {
+      console.log(error);
+  });
+  const data = req?.data;
   return data;
 };
 
