@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, {useState, useEffect} from 'react';
 import './LoadingScreenForJoin.css'
 import { useNavigate, useLocation, useParams} from 'react-router-dom'
@@ -6,7 +5,7 @@ import { Grid, Button } from '@mui/material';
 import BackBtn from '@mui/material/Button';
 import UndoIcon from '@mui/icons-material/Undo';
 import CircularProgress from '@mui/material/CircularProgress';
-import {SERVER, HOME_SCREEN} from '../../constants/routes'
+import {HOME_SCREEN} from '../../constants/routes'
 import audio from './Audio/switch_007.ogg';
 import {
   getGame,
@@ -21,26 +20,9 @@ function LoadingScreenForJoin() {
       new Audio(audio).play();
     }
 
-    const client = axios.create({baseURL: `${SERVER}`});
     const host = location?.state?.host;
     const {gameID, playerID} = useParams();
     const [game, setGame] = useState(null);
-
-    //Game API
-    // const getGame = () => {
-    //   try{
-    //     client.get(`/game/${gameID}`)
-    //     .then(res => {
-    //       console.log("getGame",res)
-    //       setGame(res?.data)
-    //     })
-    //     .catch(function (error) {
-    //         console.log(error);
-    //     })
-    //   } catch(e) {
-    //     console.log(e);
-    //   }
-    // };
   
     useEffect(() => {
       getGame(gameID).then(res => {
@@ -61,12 +43,13 @@ function LoadingScreenForJoin() {
           }
         })
       }
+      playSound();
       navigate(`/${gameID}/${playerID}/game`);
     }
 
     //Buttons
     const startOnClick = () => {
-      console.log("startOnClick")
+      playSound();
       addRound(gameID).then(game => {
         navigate(`/${gameID}/${playerID}/game`)
       })
