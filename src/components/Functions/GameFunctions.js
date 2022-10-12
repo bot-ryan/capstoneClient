@@ -48,3 +48,19 @@ export const updateHost = async(playerID,gameID) => {
   const data = await req?.data;
   return data;
 };
+
+export const addRound = async(gameID) => {
+  const req = await getGame(gameID).then(game => {
+    client.patch(`/game/${gameID}`,{
+      round: (game?.round) + 1
+    })
+    .then(res => {
+      console.log("addRound",res)
+    })
+    .catch(function (error) {
+        console.log(error);
+    })
+  });
+  const data = await req?.data;
+  return data;
+};
