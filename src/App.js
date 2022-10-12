@@ -9,8 +9,6 @@ import MainScreen from './components/MainScreen/MainScreen';
 import ResultScreen from './components/ResultScreen/ResultScreen';
 import LeaderBoard from './components/LeaderBoard/LeaderBoard';
 import { render } from '@testing-library/react';
-import Sound from 'react-sound';
-import bgm from "./bgm.mp3";
 import React, { useState } from 'react';
 import { Grid, Button } from '@mui/material';
 import {
@@ -42,15 +40,7 @@ function App(handleSongLoading,
   return (
     <div className="App">
       <Router>
-        <Sound
-          url={bgm}
-          playStatus = {isPlaying ? Sound.status.PLAYING : Sound.status.STOPPED}
-          playFromPosition={300}
-          onLoading={handleSongLoading}
-          onPlaying={handleSongPlaying}
-          onFinishedPlaying={handleSongFinishedPlaying}
-          volume = {30}
-        />
+    
         
         {/* <Container> */}
           <Grid container>
