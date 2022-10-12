@@ -1,5 +1,5 @@
-export const SERVER = "http://localhost:5000";
-// export const SERVER = "https://oil-exploration.herokuapp.com";
+//export const SERVER = "http://localhost:5000";
+export const SERVER = "https://oil-exploration.herokuapp.com";
 export const HOME_SCREEN = "/";
 export const JOIN_LOBBY = "/join";
 export const REG_COMPANY = "/:gameID/createCompany";
