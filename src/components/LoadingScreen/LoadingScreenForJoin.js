@@ -8,7 +8,10 @@ import UndoIcon from '@mui/icons-material/Undo';
 import CircularProgress from '@mui/material/CircularProgress';
 import {SERVER, HOME_SCREEN} from '../../constants/routes'
 import audio from './Audio/switch_007.ogg';
-import { addRound } from '../Functions/GameFunctions';
+import {
+  getGame,
+  addRound
+} from '../Functions/GameFunctions';
 
 function LoadingScreenForJoin() {
     let navigate = useNavigate();
@@ -24,24 +27,42 @@ function LoadingScreenForJoin() {
     const [game, setGame] = useState(null);
 
     //Game API
-    const getGame = () => {
-      try{
-        client.get(`/game/${gameID}`)
-        .then(res => {
-          console.log("getGame",res)
-          setGame(res?.data)
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
-      } catch(e) {
-        console.log(e);
-      }
-    };
+    // const getGame = () => {
+    //   try{
+    //     client.get(`/game/${gameID}`)
+    //     .then(res => {
+    //       console.log("getGame",res)
+    //       setGame(res?.data)
+    //     })
+    //     .catch(function (error) {
+    //         console.log(error);
+    //     })
+    //   } catch(e) {
+    //     console.log(e);
+    //   }
+    // };
   
     useEffect(() => {
-      getGame();
+      getGame(gameID).then(res => {
+        setGame(res)
+      });
+      if(!host) {
+        waitStart();
+      }
     }, []);
+
+    const waitStart = async() => {
+      var start = false;
+      while(!start){
+        start = await getGame(gameID).then(game => {
+          console.log(game?.round)
+          if(game?.round > 0) {
+            return true;
+          }
+        })
+      }
+      navigate(`/${gameID}/${playerID}/game`);
+    }
 
     //Buttons
     const startOnClick = () => {
