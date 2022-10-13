@@ -42,7 +42,7 @@ function App(handleSongLoading,
   return (
     <div className="App">
       <Router>
-        <Sound
+        {/* <Sound
           url={bgm}
           playStatus = {isPlaying ? Sound.status.PLAYING : Sound.status.STOPPED}
           playFromPosition={300}
@@ -50,7 +50,7 @@ function App(handleSongLoading,
           onPlaying={handleSongPlaying}
           onFinishedPlaying={handleSongFinishedPlaying}
           volume = {30}
-        />
+        /> */}
         
         {/* <Container> */}
           <Grid container>
