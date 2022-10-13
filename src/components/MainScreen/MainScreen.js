@@ -506,7 +506,7 @@ function MainScreen() {
         default:
           path = cell + ".png";
       }
-      document.getElementById(cell).src=("./images/" + path);
+      document.getElementById(cell).src=("https://www.linkpicture.com/q/CurtinCCP" + path);
   }
 
   const theme = createTheme({
