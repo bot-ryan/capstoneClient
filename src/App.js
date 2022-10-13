@@ -9,8 +9,6 @@ import MainScreen from './components/MainScreen/MainScreen';
 import ResultScreen from './components/ResultScreen/ResultScreen';
 import LeaderBoard from './components/LeaderBoard/LeaderBoard';
 import { render } from '@testing-library/react';
-import Sound from 'react-sound';
-import bgm from "./bgm.mp3";
 import React, { useState } from 'react';
 import { Grid, Button } from '@mui/material';
 import {
@@ -52,7 +50,6 @@ function App(handleSongLoading,
           volume = {30}
         /> */}
         
-        {/* <Container> */}
           <Grid container>
             <Grid item xs={12} className="MainContent">
               <Routes>      
@@ -76,7 +73,6 @@ function App(handleSongLoading,
               {/*<Button onClick={()=> setIsPlaying(!isPlaying)}>{!isPlaying ? 'Play music' : 'Stop music'}</Button>*/}
             </Grid>
           </Grid>
-        {/* </Container> */}
       </Router>
     </div>
   );
