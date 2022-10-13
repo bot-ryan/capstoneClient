@@ -28,12 +28,12 @@ import {SERVER} from '../../constants/routes';
 import {UNOWNED,OWNED,EXPLORED,DEVELOPED} from '../../constants/concessionStates';
 import * as Colour from '../../constants/colours';
 import * as Settings from '../../constants/gameSettings';
-import io from 'socket.io-client';
 import {
   getAllConcessions,
   getNoOwnedLand,
   buyConcession,
-  getConcession
+  getConcession,
+  updateResource
 } from '../Functions/ConcessionFunctions';
 
 var socket;
@@ -157,6 +157,7 @@ function MainScreen() {
     if(concession != null && players != null) {
       getCellImage(concession);
     }
+    getOwnerName();
   }, [concession]);
 
   useEffect(() => {
@@ -327,7 +328,7 @@ function MainScreen() {
   const getOwnerName = async() => {
     if(concession?.owner != "") {
       players?.map((v) => {
-          if(v?._id == concession?.owner) {
+        if(v?._id == concession?.owner) {
           setConcessionOwner(v?.name);
         }
       })
@@ -498,6 +499,8 @@ function MainScreen() {
               }).then(res => {
                 getPlayer(playerID).then(data => {
                   setPlayer(data);
+                }).then(res => {
+                  getOwnerName();
                 });
               })
             })
@@ -534,13 +537,18 @@ function MainScreen() {
   const developOnClick = () => {
     playSound();
     if(player?.capital >= (concession?.cost/1000)) {
-      var capital = player?.capital - (concession?.cost/1000) + calcProfit();
-      var score = player?.score + 1;
-      if(concession?.resource > 0) {
-        score += concession?.resource/1000;
-      }
-      updatePlayerCapitalScore(capital,score);
-      updateConcession(concession?._id,DEVELOPED);
+      updateResource(concession?._id).then(() => {
+        getConcession(concession?._id).then((data) => {
+          setConcession(data);
+          var capital = player?.capital - (data?.cost/1000) + calcProfit();
+          var score = player?.score + 1;
+          if(data?.resource > 0) {
+            score += data?.resource/1000;
+          }
+          updatePlayerCapitalScore(capital,score);
+          updateConcession(data?._id,DEVELOPED);
+        })
+      })
     }
     else {
       alert("Insufficent capital.");
