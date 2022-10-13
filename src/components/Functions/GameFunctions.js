@@ -24,13 +24,18 @@ export const getGame = async(gameID) => {
     
   export const updateGamePlayers = async(playerID, gameID) => {
     console.log("UpdateGamePlayers",playerID,gameID);
-    const req = await client.patch(`/game/${gameID}/${playerID}`)
-    .then(res => {
-      console.log("UpdateGamePlayers res",res)
+    const req = await getGame(gameID).then(game => {
+      if(!game?.players?.includes(playerID)){
+        return client.patch(`/game/${gameID}/${playerID}`);
+      }
     })
-    .catch(function (error) {
-        console.log(error);
-    });
+    // const req = await client.patch(`/game/${gameID}/${playerID}`)
+    // .then(res => {
+    //   console.log("UpdateGamePlayers res",res)
+    // })
+    // .catch(function (error) {
+    //     console.log(error);
+    // });
     const data = req?.data;
     return data;
 };
