@@ -31,7 +31,7 @@ export const getConcession = async(id) => {
 
 export const updateConcessionStatus = async(concession, status, playerID) => {
   try{
-    const req = await client.put(`concession/${concession?._id}`,{
+    const req = await client.patch(`concession/${concession?._id}`,{
       location: concession?.location,
       cost: concession?.cost,
       resource: concession?.resource,
@@ -50,7 +50,7 @@ export const updateConcessionStatus = async(concession, status, playerID) => {
 
 export const resetConcession = async(conc) => {
   try{
-    const req = await client.put(`concession/${conc?._id}`,{
+    const req = await client.patch(`concession/${conc?._id}`,{
       location: conc?.location,
       cost: randValue(conc?.cost,5),
       resource: randValue(conc?.resource,10),
