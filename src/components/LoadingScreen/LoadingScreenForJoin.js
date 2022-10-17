@@ -23,7 +23,18 @@ function LoadingScreenForJoin() {
     const host = location?.state?.host;
     const {gameID, playerID} = useParams();
     const [game, setGame] = useState(null);
+
+    const allPlayers = [];
+    allPlayers.push(playerID);  //Add player into the player array
   
+    const getAllPlayers = () =>{
+      let text = "<ul>";
+      for (let i = 0; i < allPlayers.length; i++) {
+        text += "<li>" + fruits[i] + "</li>";
+      }
+      text += "</ul>";
+    }
+
     useEffect(() => {
       getGame(gameID).then(res => {
         setGame(res)
@@ -70,6 +81,7 @@ function LoadingScreenForJoin() {
           <span className="GamePin">Game Pin: {game?.gamePin}</span>
         </Grid>
         <Grid item xs={12}>
+          <span>{getAllPlayers()}</span>
           <span>Please wait for the host to start the game...</span>
         </Grid>
         <Grid item xs={12}>
