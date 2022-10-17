@@ -30,7 +30,7 @@ function LoadingScreenForJoin() {
     const getAllPlayers = () =>{
       let text = "<ul>";
       for (let i = 0; i < allPlayers.length; i++) {
-        text += "<li>" + fruits[i] + "</li>";
+        text += "<li>" + allPlayers[i] + "</li>";
       }
       text += "</ul>";
     }
