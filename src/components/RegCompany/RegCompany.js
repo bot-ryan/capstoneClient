@@ -20,6 +20,7 @@ import {
   updateGamePlayers,
   updateHost
 } from '../Functions/GameFunctions';
+import { List } from 'react-bootstrap/lib/Media';
 
 function RegCompany() {
   let navigate = useNavigate();
@@ -33,7 +34,7 @@ function RegCompany() {
   const host = location?.state?.host;
   const {gameID, playerID} = useParams();
   const [game, setGame] = useState(null);
-
+  
   const [player, setPlayer] = useState({
     name: "",
     capital: Settings.INITIAL_CAPITAL,
