@@ -6,7 +6,6 @@ import UndoIcon from '@mui/icons-material/Undo';
 import BackBtn from '@mui/material/Button';
 import React, { useState, useEffect } from 'react';
 import { SERVER, HOME_SCREEN, JOIN_LOBBY } from '../../constants/routes';
-import * as Colour from '../../constants/colours';
 import * as Settings from '../../constants/gameSettings';
 import audio from './Audio/switch_007.ogg';
 import axios from 'axios';
@@ -20,7 +19,6 @@ import {
   updateGamePlayers,
   updateHost
 } from '../Functions/GameFunctions';
-import { List } from 'react-bootstrap/lib/Media';
 
 function RegCompany() {
   let navigate = useNavigate();

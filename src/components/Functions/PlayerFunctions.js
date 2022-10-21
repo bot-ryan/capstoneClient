@@ -8,9 +8,22 @@ const client = axios.create({baseURL: `${Routes.SERVER}`});
 
 //Player API
 export const getPlayer = async(id) => {
-  client.get(`/player/${id}`).catch(function (error) {
+  const req = await client.get(`/player/${id}`).catch(function (error) {
       console.log(error);
   })
+  const data = await req?.data;
+  return data;
+}
+
+export const getAllPlayers = async() => {
+  const req = await client.get(`/player`).then(res =>{
+    console.log("getAllPlayers", res);
+  }).catch(function (error) {
+      console.log(error);
+  })
+
+  const data = await req?.data;
+  return data;
 }
 
 export const createPlayer = async(player, colour) => {

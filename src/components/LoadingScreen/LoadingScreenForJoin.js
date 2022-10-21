@@ -11,6 +11,9 @@ import {
   getGame,
   addRound
 } from '../Functions/GameFunctions';
+import {
+  getPlayer
+} from '../Functions/PlayerFunctions';
 
 function LoadingScreenForJoin() {
     let navigate = useNavigate();
@@ -23,33 +26,57 @@ function LoadingScreenForJoin() {
     const host = location?.state?.host;
     const {gameID, playerID} = useParams();
     const [game, setGame] = useState(null);
-
-    const allPlayers = [];
-    allPlayers.push(playerID);  //Add player into the player array
+    const [players, setPlayers] = useState([]);
+    const [playersText, setPlayersText] = useState("");
   
-    const getAllPlayers = () =>{
-      let text = "<ul>";
-      for (let i = 0; i < allPlayers.length; i++) {
-        text += "<li>" + allPlayers[i] + "</li>";
-      }
-      text += "</ul>";
-    }
-
     useEffect(() => {
-      getGame(gameID).then(res => {
-        setGame(res)
-      });
-      if(!host) {
-        waitStart();
-      }
+      getGame(gameID).then((g) =>{
+        setGame(g);
+      })
+      waitStart();
     }, []);
+
+    useEffect(()=>{
+      console.log(game?.players?.length !== players?.length);
+      if(game?.players?.length !== players?.length){
+        game?.players?.map((p) =>{
+          getPlayer(p).then((res)=>{
+            if(!players.some(v => v._id === res?._id)){
+              setPlayers(players => [...players,res]);
+            }
+          })
+        })
+      }
+    },[game]);
+
+    //Show all players in waiting room
+    useEffect(() => {
+      let text = "";
+      //remove duplicate players
+      let uniquePlayers = players.filter((value, index, self) =>
+        index === self.findIndex((t) => (
+          t._id === value._id
+        ))
+      )
+
+      if(uniquePlayers?.length >= 1) {
+        text = players[0]?.name;
+      }
+      for (let i = 1; i < uniquePlayers?.length; i++) {
+        text += " | " + uniquePlayers[i]?.name;
+      }
+
+      setPlayersText(text);
+    },[players])
 
     const waitStart = async() => {
       var start = false;
       while(!start){
-        start = await getGame(gameID).then(game => {
-          console.log(game?.round)
-          if(game?.round > 0) {
+        start = await getGame(gameID).then(g => {
+          if(g?.players?.length !== players?.length){
+            setGame(g);
+          }
+          if(g?.round > 0) {
             return true;
           }
         })
@@ -81,7 +108,8 @@ function LoadingScreenForJoin() {
           <span className="GamePin">Game Pin: {game?.gamePin}</span>
         </Grid>
         <Grid item xs={12}>
-          <span>{getAllPlayers()}</span>
+          <span>{playersText}</span>
+          <br/>
           <span>Please wait for the host to start the game...</span>
         </Grid>
         <Grid item xs={12}>
