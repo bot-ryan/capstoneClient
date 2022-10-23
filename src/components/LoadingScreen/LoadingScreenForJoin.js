@@ -82,14 +82,14 @@ function LoadingScreenForJoin() {
         })
       }
       playSound();
-      navigate(`/${gameID}/${playerID}/game`);
+      navigate(`/${gameID}/${playerID}/game`, {state: {host: host}});
     }
 
     //Buttons
     const startOnClick = () => {
       playSound();
       addRound(gameID).then(game => {
-        navigate(`/${gameID}/${playerID}/game`)
+        navigate(`/${gameID}/${playerID}/game`, {state: {host: host}})
       })
     }
 

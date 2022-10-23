@@ -5,16 +5,14 @@ import {
   Redo,
   AttachMoney,
   Science,
-  Explore
+  Explore,
+  AssistantPhoto
 } from '@mui/icons-material';
-import { IconButton } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
 import { blue, deepOrange, green, purple } from '@mui/material/colors';
 import Grid from '@mui/material/Grid';
 import React, { useEffect, useState } from 'react';
-import GavelIcon from '@mui/icons-material/Gavel';
-import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -28,15 +26,12 @@ import {SERVER} from '../../constants/routes';
 import {UNOWNED,OWNED,EXPLORED,DEVELOPED} from '../../constants/concessionStates';
 import * as Colour from '../../constants/colours';
 import * as Settings from '../../constants/gameSettings';
-import io from 'socket.io-client';
 import {
   getAllConcessions,
   getNoOwnedLand,
   buyConcession,
   getConcession
 } from '../Functions/ConcessionFunctions';
-
-var socket;
 
 function MainScreen() {
   let navigate = useNavigate();
@@ -46,6 +41,7 @@ function MainScreen() {
     new Audio(audio).play();
   }
 
+  const host = location?.state?.host;
   const {gameID, playerID} = useParams();
   const client = axios.create({baseURL: `${SERVER}`});
 
@@ -339,7 +335,7 @@ function MainScreen() {
   }
 
   //Leaderboard API
-  const createLeaderboard = (player) => (
+  const createLeaderboard = () => (
     console.log("createdLeaderboard gameID",gameID),
     client.post(`/leaderboard/create`,{
       gameID: gameID,
@@ -347,9 +343,7 @@ function MainScreen() {
       score: player?.capital
     })
     .then(res => {
-      // if(idx === game?.players) {
-        navigate(`/${gameID}/${playerID}/result`)
-      // }
+      navigate(`/${gameID}/${playerID}/result`)
       return res;
     })
     .catch(function (error) {
@@ -392,7 +386,7 @@ function MainScreen() {
   const checkEnd = () => {
     console.log("checkend",game)
     if(game?.round >= game?.maxRounds) {
-      createLeaderboard(player)
+      createLeaderboard()
     }
   };
 
@@ -892,6 +886,10 @@ function MainScreen() {
                   <Button sx={{ margin: 2 }} variant='contained' color="success" size="large" startIcon={<Science/>} disabled={concession?.status != OWNED} onClick={() => {exploreOnClick() }} style={{cursor:'pointer'}}>Explore</Button>
                   <Button sx={{ margin: 2 }} variant='contained' color="secondary" size="large" startIcon={<Explore/>} disabled={concession?.status != OWNED && concession?.status != EXPLORED} onClick={() => {developOnClick()}} style={{ cursor:'pointer' }}>Develop</Button>
                   <Button sx={{ margin: 2 }} variant='contained' color="moreGrey" size="large" startIcon={<Redo/>} onClick={() => {addRound()}} style={{ cursor:'pointer' }}>Skip</Button>
+                  {host?
+                    <Button sx={{ margin: 2 }} variant='contained' color="moreGrey" size="large" startIcon={<AssistantPhoto/>} onClick={() => {createLeaderboard()}} style={{ cursor:'pointer' }}>End Game</Button> :
+                    null
+                  }
                 </ThemeProvider>
                 <ButtonGroup sx={{ margin: 2 }} variant="text" aria-label="outlined button group" size="small">
                   {/* <Button  onClick={() => {playSound(); }}>Settings</Button> */}
