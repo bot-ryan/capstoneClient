@@ -157,6 +157,7 @@ function MainScreen() {
     if(concession != null && players != null) {
       getCellImage(concession);
     }
+    getOwnerName();
   }, [concession]);
 
   useEffect(() => {
