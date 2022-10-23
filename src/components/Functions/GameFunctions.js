@@ -29,13 +29,6 @@ export const getGame = async(gameID) => {
         return client.patch(`/game/${gameID}/${playerID}`);
       }
     })
-    // const req = await client.patch(`/game/${gameID}/${playerID}`)
-    // .then(res => {
-    //   console.log("UpdateGamePlayers res",res)
-    // })
-    // .catch(function (error) {
-    //     console.log(error);
-    // });
     const data = req?.data;
     return data;
 };

@@ -6,7 +6,6 @@ import UndoIcon from '@mui/icons-material/Undo';
 import BackBtn from '@mui/material/Button';
 import React, { useState, useEffect } from 'react';
 import { SERVER, HOME_SCREEN, JOIN_LOBBY } from '../../constants/routes';
-import * as Colour from '../../constants/colours';
 import * as Settings from '../../constants/gameSettings';
 import audio from './Audio/switch_007.ogg';
 import axios from 'axios';
@@ -33,7 +32,7 @@ function RegCompany() {
   const host = location?.state?.host;
   const {gameID, playerID} = useParams();
   const [game, setGame] = useState(null);
-
+  
   const [player, setPlayer] = useState({
     name: "",
     capital: Settings.INITIAL_CAPITAL,
@@ -108,6 +107,14 @@ function RegCompany() {
       })
     }
   }
+
+  //GUI
+  // const GamePinGUI = () => {
+  //   //BUG: does not show when host && playerID != null
+  //   if(!(host && (playerID === null))){
+  //     <span className="GamePin">Game Pin: {game?.gamePin}</span>
+  //   }
+  // }
   
   return (
     <>
@@ -123,6 +130,7 @@ function RegCompany() {
             <span className="GameName" onClick={() => {navigate(`${HOME_SCREEN}`); playSound();}}>Oil Corps</span>
             <br/>
             <span className="GamePin">Game Pin: {game?.gamePin}</span>
+            {/* {GamePinGUI()} */}
           </Grid>
           <Grid item xs={12}>
             <span>Please enter your company name: </span>

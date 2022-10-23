@@ -132,30 +132,3 @@ export const getNoOwnedLand = async(playerID) => {
 
   return count;
 };
-
-export const updateResource = async(concessionID) => {
-  const res = await getConcession(concessionID).then(concession => {
-    console.log("updateResource",concession ,ConcState.OWNED);
-    if(concession?.status == ConcState.OWNED){
-      try{
-        return client.patch(`concession/${concession?._id}`,{
-          location: concession?.location,
-          cost: concession?.cost,
-          resource: concession?.resource /2,
-          status: concession?.status,
-          owner: concession?.owner
-        }).then((res)=> {
-          console.log("updateResource update",res)
-        }).catch(function (error) {
-          console.log(error);
-        });
-      } catch(e) {
-        console.log(e);
-      }
-    }
-    else{
-      console.log("updateResource enter else",concession);
-    }
-  })
-  return res;
-}
