@@ -186,7 +186,7 @@ function MainScreen() {
   //Concession API
   const updateConcession = (id, newStat) => {
     try{
-      client.put(`concession/${id}`,{
+      client.patch(`concession/${id}`,{
         location: concession?.location,
         cost: concession?.cost,
         resource: concession?.resource,
