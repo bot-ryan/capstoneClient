@@ -101,3 +101,9 @@ Button{
   padding-bottom: 3px;
   border: 3px solid rgb(0, 124, 39);
 }
+
+Button:disabled{
+  background:  #ccc;
+  color: #666;
+  cursor: no-drop;
+}

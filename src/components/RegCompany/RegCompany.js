@@ -1,8 +1,13 @@
 import './RegCompany.css';
 import { useNavigate, useLocation, useParams} from 'react-router-dom'
 import {Grid, Button} from '@mui/material';
-import HowToRegIcon from '@mui/icons-material/HowToReg';
-import UndoIcon from '@mui/icons-material/Undo';
+import {
+  HowToReg,
+  Undo
+} from '@mui/icons-material';
+import {
+  CircularProgress
+} from '@mui/material';
 import BackBtn from '@mui/material/Button';
 import React, { useState, useEffect } from 'react';
 import { SERVER, HOME_SCREEN, JOIN_LOBBY } from '../../constants/routes';
@@ -32,6 +37,7 @@ function RegCompany() {
   const host = location?.state?.host;
   const {gameID, playerID} = useParams();
   const [game, setGame] = useState(null);
+  // const [ready, setReady] = useState(false);
   
   const [player, setPlayer] = useState({
     name: "",
@@ -78,8 +84,10 @@ function RegCompany() {
     getGame();
   }, []);
 
-  const handleReady = () =>{
+  const handleReady = (event) =>{
     playSound();
+    event.currentTarget.disabled = true;
+    LoadingGUI(true);
     //create new player
     if(playerID == null) {
       validatePlayerCreation(gameID).then((validated) => {
@@ -109,6 +117,15 @@ function RegCompany() {
       updatePlayer(player).then((res) => {
         navigate(`/${gameID}/${playerID}/loading`, {state: {host: host}})
       })
+    }
+  }
+
+  const LoadingGUI = (ready) => {
+    if(ready){
+      return <CircularProgress />
+    }
+    else{
+      return null;
     }
   }
 
@@ -148,13 +165,15 @@ function RegCompany() {
             ></input>
           </Grid>
           <Grid item xs={12}>
+            {LoadingGUI()}
+            <br/>
             <Button
               variant='contained'
               color="success"
               size="large"
-              startIcon={<HowToRegIcon/>}
-              onClick={handleReady}
+              startIcon={<HowToReg/>}
               style={{cursor:'pointer'}}
+              onClick={handleReady}
             >
               READY
             </Button>
@@ -163,7 +182,7 @@ function RegCompany() {
             <BackBtn
               variant='text'
               size="medium"
-              startIcon={<UndoIcon/>}
+              startIcon={<Undo/>}
               onClick={() => host? (navigate(`${HOME_SCREEN}`) && playSound()) : (navigate(`${JOIN_LOBBY}`) && playSound())}
               style={{cursor:'pointer'}}
             >
