@@ -107,6 +107,14 @@ function RegCompany() {
       })
     }
   }
+
+  //GUI
+  // const GamePinGUI = () => {
+  //   //BUG: does not show when host && playerID != null
+  //   if(!(host && (playerID === null))){
+  //     <span className="GamePin">Game Pin: {game?.gamePin}</span>
+  //   }
+  // }
   
   return (
     <>
@@ -122,6 +130,7 @@ function RegCompany() {
             <span className="GameName" onClick={() => {navigate(`${HOME_SCREEN}`); playSound();}}>Oil Corps</span>
             <br/>
             <span className="GamePin">Game Pin: {game?.gamePin}</span>
+            {/* {GamePinGUI()} */}
           </Grid>
           <Grid item xs={12}>
             <span>Please enter your company name: </span>
