@@ -183,6 +183,10 @@ function MainScreen() {
     }
   })
 
+  useEffect(() => {
+    checkEnd();
+  }, [game]);
+
   //Concession API
   const updateConcession = (id, newStat) => {
     try{
@@ -352,32 +356,36 @@ function MainScreen() {
   );
 
   //Game API
-  const getGame = () => {
+  const getGame = async() => {
     try{
-      client.get(`/game/${gameID}`)
+      const res = await client.get(`/game/${gameID}`)
       .then(res => {
         console.log("getGame",res)
         setGame(res?.data)
+        return res;
       })
       .catch(function (error) {
           console.log(error);
       })
+      const data = await res?.data;
+      return data;
     } catch(e) {
       console.log(e);
     }
   };
 
-  const addRound = () => (
-    checkEnd(),
-    client.patch(`/game/${game?._id}`,{
-      round: (game?.round) + 1
-    })
-    .then(res => {
-      console.log("addRound",res)
-      setGame(res?.data)
-    })
-    .catch(function (error) {
-        console.log(error);
+  const addRound = async() => (
+    getGame().then(res => {
+      client.patch(`/game/${game?._id}`,{
+        round: (game?.round) + 1
+      })
+      .then(res => {
+        console.log("addRound",res)
+        setGame(res?.data)
+      })
+      .catch(function (error) {
+          console.log(error);
+      })
     })
   );
 
@@ -389,6 +397,20 @@ function MainScreen() {
       createLeaderboard()
     }
   };
+
+  const endGame = () => {
+    client.patch(`/game/${game?._id}`,{
+      round: 20
+    })
+    .then(res => {
+      console.log("endGame",res)
+      setGame(res?.data)
+      createLeaderboard()
+    })
+    .catch(function (error) {
+      console.log(error)
+    });
+  }
 
   //UI
   const playerDetails = () => {
@@ -887,7 +909,7 @@ function MainScreen() {
                   <Button sx={{ margin: 2 }} variant='contained' color="secondary" size="large" startIcon={<Explore/>} disabled={concession?.status != OWNED && concession?.status != EXPLORED} onClick={() => {developOnClick()}} style={{ cursor:'pointer' }}>Develop</Button>
                   <Button sx={{ margin: 2 }} variant='contained' color="moreGrey" size="large" startIcon={<Redo/>} onClick={() => {addRound()}} style={{ cursor:'pointer' }}>Skip</Button>
                   {host?
-                    <Button sx={{ margin: 2 }} variant='contained' color="moreGrey" size="large" startIcon={<AssistantPhoto/>} onClick={() => {createLeaderboard()}} style={{ cursor:'pointer' }}>End Game</Button> :
+                    <Button sx={{ margin: 2 }} variant='contained' color="moreGrey" size="large" startIcon={<AssistantPhoto/>} onClick={() => {endGame()}} style={{ cursor:'pointer' }}>End Game</Button> :
                     null
                   }
                 </ThemeProvider>
