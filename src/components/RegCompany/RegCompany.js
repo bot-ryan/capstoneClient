@@ -88,9 +88,13 @@ function RegCompany() {
             createPlayer(player, colour).then(player => {
               const newPlayerID = player?._id;
               updateGamePlayers(newPlayerID,gameID).then(res => {
-                updateHost(newPlayerID,gameID).then(res => {
-                  navigate(`/${gameID}/${newPlayerID}/loading`, {state: {host: host}})
-                })
+                if(host){
+                  updateHost(newPlayerID,gameID).then(res => {
+                    navigate(`/${gameID}/${newPlayerID}/loading`, {state: {host: host}})
+                  })
+                }else{
+                    navigate(`/${gameID}/${newPlayerID}/loading`, {state: {host: host}})
+                }
               })
             });
           })
