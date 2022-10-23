@@ -37,16 +37,18 @@ function LoadingScreenForJoin() {
     }, []);
 
     useEffect(()=>{
-      console.log(game?.players?.length !== players?.length);
-      if(game?.players?.length !== players?.length){
+      console.log("game useEffect", game, players)
+      //BUG: players array contains duplicates
+      // if(game?.players?.length !== players?.length){
         game?.players?.map((p) =>{
           getPlayer(p).then((res)=>{
             if(!players.some(v => v._id === res?._id)){
+              console.log("add Players", res)
               setPlayers(players => [...players,res]);
             }
           })
         })
-      }
+      // }
     },[game]);
 
     //Show all players in waiting room
@@ -73,9 +75,7 @@ function LoadingScreenForJoin() {
       var start = false;
       while(!start){
         start = await getGame(gameID).then(g => {
-          if(g?.players?.length !== players?.length){
-            setGame(g);
-          }
+          setGame(g);
           if(g?.round > 0) {
             return true;
           }
@@ -109,7 +109,7 @@ function LoadingScreenForJoin() {
         </Grid>
         <Grid item xs={12}>
           <span>{playersText}</span>
-          <br/>
+          <br/> <br/>
           <span>Please wait for the host to start the game...</span>
         </Grid>
         <Grid item xs={12}>
