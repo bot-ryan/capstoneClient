@@ -189,7 +189,7 @@ function ResultScreen() {
                          <span className="CompanyResultName Ital">{player?.name} Financial Statement</span>
                     </Grid>
                     <Grid item xs= {12} style={{display: "flex", marginLeft:"20px"}} >
-                        <span className="ResultData">Initial Capital: $20 Million</span>
+                        <span className="ResultData">Initial Capital: $200 Million</span>
                     </Grid>
                     <Grid item xs= {12} style={{display: "flex", marginLeft:"20px"}} >
                         <span className="ResultData">Final Capital: ${player?.capital} Million</span>
