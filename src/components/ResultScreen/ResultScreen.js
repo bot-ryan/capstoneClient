@@ -195,7 +195,7 @@ function ResultScreen() {
                         <span className="ResultData">Final Capital: ${player?.capital} Million</span>
                     </Grid>
                     <Grid item xs= {12} style={{display: "flex", marginLeft:"20px"}} >
-                        <span className="ResultData">Revenue: ${player?.capital-20} Million</span>
+                        <span className="ResultData">Revenue: ${player?.capital-200} Million</span>
                     </Grid>
               </Grid>
         </Grid>
