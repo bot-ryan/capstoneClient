@@ -28,7 +28,7 @@ function LoadingScreenForJoin() {
     const {gameID, playerID} = useParams();
     const [game, setGame] = useState(null);
     const [players, setPlayers] = useState([]);
-    const [playersText, setPlayersText] = useState("");
+    const [playersText, setPlayersText] = useState([]);
     const [randomColor, setRandomColor] = useState("blue");
 
 
@@ -85,7 +85,7 @@ function LoadingScreenForJoin() {
         
       }
 
-      setPlayersText(text);
+      setPlayersText(arr => [...arr, text]);
     },[players])
 
     const waitStart = async() => {
