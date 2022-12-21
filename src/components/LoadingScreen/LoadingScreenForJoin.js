@@ -70,7 +70,7 @@ function LoadingScreenForJoin() {
       if(uniquePlayers?.length >= 1) {
         
         text = players[0]?.name;
-        //text.style.color = 'orange';
+        text.style.color = 'orange';
       }
       for (let i = 1; i < uniquePlayers?.length; i++) {
         text += " | " + uniquePlayers[i]?.name;
