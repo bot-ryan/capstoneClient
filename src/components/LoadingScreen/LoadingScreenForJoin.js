@@ -31,9 +31,9 @@ function LoadingScreenForJoin() {
     const [randomColor, setRandomColor] = useState("blue");
 
 
-    const colors = ["orange", "green", "white", "red"];
-    var pickColor = colors[Math.floor(Math.random() * colors.length)];
-    setRandomColor(pickColor);
+    // const colors = ["orange", "green", "white", "red"];
+    // var pickColor = colors[Math.floor(Math.random() * colors.length)];
+    // setRandomColor(pickColor);
   
     useEffect(() => {
       getGame(gameID).then((g) =>{
