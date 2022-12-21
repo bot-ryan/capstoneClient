@@ -62,7 +62,7 @@ function LoadingScreenForJoin() {
       )
 
       if(uniquePlayers?.length >= 1) {
-        text.style.color = players[0]?.color;
+       // text.style.color = players[0]?.color;
         text = players[0]?.name + "testing worked";
       }
       for (let i = 1; i < uniquePlayers?.length; i++) {
