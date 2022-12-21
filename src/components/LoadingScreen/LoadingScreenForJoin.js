@@ -110,7 +110,7 @@ function LoadingScreenForJoin() {
           <span className="GamePin">Game Pin: {game?.gamePin}</span>
         </Grid>
         <Grid item xs={12}>
-          <span style={{color: 'orange'}}>{playersText}</span>
+          <span style={{color: players[0]?.color}}>{playersText}</span>
           <br/> <br/>
           <span>Please wait for the host to start the game...</span>
         </Grid>
