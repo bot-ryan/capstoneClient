@@ -32,7 +32,7 @@ function LoadingScreenForJoin() {
 
 
     const colors = ["orange", "green", "white", "red"];
-    let pickColor = colors[Math.floor(Math.random() * colors.length)];
+    var pickColor = colors[Math.floor(Math.random() * colors.length)];
     setRandomColor(pickColor);
   
     useEffect(() => {
@@ -70,7 +70,7 @@ function LoadingScreenForJoin() {
       if(uniquePlayers?.length >= 1) {
         
         text = players[0]?.name;
-        //text.style.color = "orange";
+        text.style.color = 'orange';
       }
       for (let i = 1; i < uniquePlayers?.length; i++) {
         text += " | " + uniquePlayers[i]?.name;
@@ -116,7 +116,10 @@ function LoadingScreenForJoin() {
           <span className="GamePin">Game Pin: {game?.gamePin}</span>
         </Grid>
         <Grid item xs={12}>
-          <span style={{color: randomColor}}>{playersText}</span>
+
+          {/* <span style={{color: 'orange'}}>{playersText}</span> */}
+          <span >{playersText}</span>
+
           <br/> <br/>
           <span>Please wait for the host to start the game...</span>
         </Grid>
