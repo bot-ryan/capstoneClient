@@ -64,7 +64,7 @@ function LoadingScreenForJoin() {
       if(uniquePlayers?.length >= 1) {
         
         text = players[0]?.name;
-        text.style.color = players[0]?.color;
+        //text.style.color = "orange";
       }
       for (let i = 1; i < uniquePlayers?.length; i++) {
         text += " | " + uniquePlayers[i]?.name;
@@ -110,7 +110,7 @@ function LoadingScreenForJoin() {
           <span className="GamePin">Game Pin: {game?.gamePin}</span>
         </Grid>
         <Grid item xs={12}>
-          <span>{playersText}</span>
+          <span style={{color: 'orange'}}>{playersText}</span>
           <br/> <br/>
           <span>Please wait for the host to start the game...</span>
         </Grid>
