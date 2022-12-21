@@ -73,15 +73,15 @@ function LoadingScreenForJoin() {
       if(uniquePlayers?.length >= 1) {
         
         playerCount++;
-        //text = players[0]?.name;
-        text = "player" + playerCount;
+        text = players[0]?.name;
+       // text = "player" + playerCount;
         
       }
       for (let i = 1; i < uniquePlayers?.length; i++) {
         //text += " | " + uniquePlayers[i]?.name;
         playerCount++;
-       // text = uniquePlayers[i]?.name;
-       text = "player" + playerCount;
+       text = uniquePlayers[i]?.name;
+       //text = "player" + playerCount;
         
       }
 
@@ -129,12 +129,12 @@ function LoadingScreenForJoin() {
            {/* <span style={{color: randomColor}}>{playersText}</span> */}
 
            <span>
-            {playersText === 'player1' && (
+            {playerCount === 1 && (
               <>
               <span style={{color: 'orange'}}>{playersText}</span>
               </>
           )}
-          {playersText === 'player2' && (
+          {playerCount === 2 && (
               <>
               <span style={{color: 'blue'}}>{playersText}</span>
               </>
