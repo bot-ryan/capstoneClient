@@ -28,6 +28,12 @@ function LoadingScreenForJoin() {
     const [game, setGame] = useState(null);
     const [players, setPlayers] = useState([]);
     const [playersText, setPlayersText] = useState("");
+    const [randomColor, setRandomColor] = useState("blue");
+
+
+    const colors = ["orange", "green", "white", "red"];
+    let pickColor = colors[Math.floor(Math.random() * colors*length)];
+    setRandomColor(pickColor);
   
     useEffect(() => {
       getGame(gameID).then((g) =>{
@@ -110,7 +116,7 @@ function LoadingScreenForJoin() {
           <span className="GamePin">Game Pin: {game?.gamePin}</span>
         </Grid>
         <Grid item xs={12}>
-          <span style={{color: players[0]?.color}}>{playersText}</span>
+          <span style={{color: randomColor}}>{playersText}</span>
           <br/> <br/>
           <span>Please wait for the host to start the game...</span>
         </Grid>
