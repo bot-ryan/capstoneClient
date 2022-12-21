@@ -18,6 +18,7 @@ import {
 function LoadingScreenForJoin() {
     let navigate = useNavigate();
     let location = useLocation();
+    let playerCount = 0;
 
     const playSound = () =>{
       new Audio(audio).play();
@@ -71,10 +72,17 @@ function LoadingScreenForJoin() {
 
       if(uniquePlayers?.length >= 1) {
         
-        text = players[0]?.name;
+        playerCount++;
+        //text = players[0]?.name;
+        text = "player" + playerCount;
+        
       }
       for (let i = 1; i < uniquePlayers?.length; i++) {
-        text += " | " + uniquePlayers[i]?.name;
+        //text += " | " + uniquePlayers[i]?.name;
+        playerCount++;
+       // text = uniquePlayers[i]?.name;
+       text = "player" + playerCount;
+        
       }
 
       setPlayersText(text);
@@ -118,7 +126,22 @@ function LoadingScreenForJoin() {
         </Grid>
         <Grid item xs={12}>
 
-           <span style={{color: randomColor}}>{playersText}</span>
+           {/* <span style={{color: randomColor}}>{playersText}</span> */}
+
+           <span>
+            {playersText === 'player1' && (
+              <>
+              <span style={{color: 'orange'}}>{playersText}</span>
+              </>
+          )}
+          {playersText === 'player2' && (
+              <>
+              <span style={{color: 'blue'}}>{playersText}</span>
+              </>
+          )}
+          </span>
+
+           
         
 
           <br/> <br/>
