@@ -32,7 +32,7 @@ function LoadingScreenForJoin() {
 
 
     const colors = ["orange", "green", "white", "red"];
-    let pickColor = colors[Math.floor(Math.random() * colors*length)];
+    let pickColor = colors[Math.floor(Math.random() * colors.length)];
     setRandomColor(pickColor);
   
     useEffect(() => {
