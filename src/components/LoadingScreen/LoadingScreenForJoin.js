@@ -94,7 +94,8 @@ function LoadingScreenForJoin() {
       //playerCount++;
 
       totalPlayers = playerCount;
-      setPlayersText(arr => [...arr, text]);
+      // setPlayersText(arr => [...arr, text]);
+      setPlayersText(text);
     },[players])
 
     const waitStart = async() => {
