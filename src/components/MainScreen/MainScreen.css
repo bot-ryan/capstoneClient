@@ -42,7 +42,7 @@ Screen-box{
 
 .CompanyName{
   font-size: 30px !important;
-  color:rgb(49, 49, 49) !important;
+  /* color:rgb(49, 49, 49) !important; */
   padding-left: 20px;
 }
 
