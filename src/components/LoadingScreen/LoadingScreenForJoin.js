@@ -99,6 +99,8 @@ function LoadingScreenForJoin() {
 
       totalPlayers = playerCount;
       setPlayersText(arr => [...arr, text]);
+      console.log(`Total players: ${totalPlayers}`);
+      console.log(`Players: ${players}`)
       //setPlayersText(text);
     },[players])
 
