@@ -420,7 +420,9 @@ function MainScreen() {
       textColour = "purple";
     }
     
-    playerDetails(textColour)
+    return () => {
+      playerDetails(textColour);
+    }
   , []};
 
   //UI
