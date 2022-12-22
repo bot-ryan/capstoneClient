@@ -136,7 +136,7 @@ function LoadingScreenForJoin() {
         <Grid item xs={12}>
           <span className="GameName" onClick={() => navigate(`${HOME_SCREEN}`)}>Oil Corps</span>
           <br/>
-          <span className="GamePin" onClick={() => {navigator.clipboard.writeText(this.state.textToCopy)}}>Game Pin: {game?.gamePin}</span>
+          <span className="GamePin" onClick={() => navigate(navigator.clipboard.writeText(this.state.textToCopy))}>Game Pin: {game?.gamePin}</span>
         </Grid>
         <Grid item xs={12}>
 
