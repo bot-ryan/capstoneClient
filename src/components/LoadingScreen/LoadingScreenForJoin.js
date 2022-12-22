@@ -146,7 +146,12 @@ function LoadingScreenForJoin() {
           )}
           {playersText[1] !== null && (
               <>
-              <span style={{color: 'blue'}}>{playersText[1]}</span>
+              <span style={{color: 'orange'}}>{playersText[1]}</span>
+              </>
+          )}
+           {playersText[2] !== null && (
+              <>
+              <span style={{color: 'blue'}}>{playersText[2]}</span>
               </>
           )}
           </span>
