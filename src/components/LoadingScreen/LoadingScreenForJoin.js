@@ -76,7 +76,7 @@ function LoadingScreenForJoin() {
         ))
       )
 
-      //fix this later
+  
 
       if(uniquePlayers?.length >= 1) {
         
@@ -141,7 +141,7 @@ function LoadingScreenForJoin() {
           <span className="GameName" onClick={() => navigate(`${HOME_SCREEN}`)}>Oil Corps</span>
           <br/>
           <span className="GamePin" onClick={() => navigate(navigator.clipboard.writeText(this.state.textToCopy))}>Game Pin: {game?.gamePin}</span>
-          <Button size='small' type='submit' onClick={copyText}>Copy Pin</Button>
+          <Button size='small' type='submit' onClick={copyText}>{copy}</Button>
         </Grid>
         <Grid item xs={12}>
 

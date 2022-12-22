@@ -414,16 +414,16 @@ function MainScreen() {
 
   //UI
   const playerDetails = () => {
-    let textColour = "black";
+    const [textColour, setTextColour] = useState("white");
     if(player?.colour === 'O') {
-      textColour = "orange";
+      setTextColour("orange");
     }
     else if(player?.colour === 'P'){
-      textColour = "purple";
+      setTextColour("purple");
     }
     return(
       <>
-        <span className='CompanyName'>{player?.name}</span>
+        <span className='CompanyName' style={{color: textColour}}>{player?.name}</span>
         <span className='Capital'>${player?.capital * 1000}</span>
         <Avatar sx={{ bgcolor: (
           (player?.colour == Colour.ORANGE) ? deepOrange[500] : 
