@@ -41,11 +41,7 @@ function LoadingScreenForJoin() {
       }, 1000);
     };
 
-    useEffect(() => {
-      const colors = ["orange", "green", "white", "red"];
-      var pickColor = colors[Math.floor(Math.random() * colors.length)];
-      setRandomColor(pickColor);
-    }, [])
+    
   
     useEffect(() => {
       getGame(gameID).then((g) =>{
