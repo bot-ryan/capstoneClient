@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import './LoadingScreenForJoin.css'
 import { useNavigate, useLocation, useParams} from 'react-router-dom'
 import { Grid, Button } from '@mui/material';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import BackBtn from '@mui/material/Button';
 import UndoIcon from '@mui/icons-material/Undo';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -30,8 +31,15 @@ function LoadingScreenForJoin() {
     const [game, setGame] = useState(null);
     const [players, setPlayers] = useState([]);
     const [playersText, setPlayersText] = useState([]);
-    const [randomColor, setRandomColor] = useState("blue");
+    const [copy, setCopy] = useState(<ContentCopyIcon />);
 
+    const copyText = async () => {
+      await navigator.clipboard.writeText(game?.gamePin);
+      setCopy('✅ Copied!');
+      setTimeout(() => {
+        setCopy(<ContentCopyIcon/>);
+      }, 1000);
+    };
 
     useEffect(() => {
       const colors = ["orange", "green", "white", "red"];
@@ -137,6 +145,7 @@ function LoadingScreenForJoin() {
           <span className="GameName" onClick={() => navigate(`${HOME_SCREEN}`)}>Oil Corps</span>
           <br/>
           <span className="GamePin" onClick={() => navigate(navigator.clipboard.writeText(this.state.textToCopy))}>Game Pin: {game?.gamePin}</span>
+          <Button size='small' type='submit' onClick={copyText}>Copy Pin</Button>
         </Grid>
         <Grid item xs={12}>
 
