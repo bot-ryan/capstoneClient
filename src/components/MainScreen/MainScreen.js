@@ -423,7 +423,7 @@ function MainScreen() {
     }
     return(
       <>
-        <span className='CompanyName' style={{color: textColour}}>{player?.name}</span>
+        <span className='CompanyName'>{player?.name}</span>
         <span className='Capital'>${player?.capital * 1000}</span>
         <Avatar sx={{ bgcolor: (
           (player?.colour == Colour.ORANGE) ? deepOrange[500] : 
