@@ -52,7 +52,6 @@ function MainScreen() {
   const [players, setPlayers] = useState(null);  
   const [game, setGame] = useState(null);
   const [initial, setInitial] = useState(true);
-  const [textColour, setTextColour] = useState("white");
   //Bidding dialog function
   const [bidOpen, setBidOpen] = React.useState(false);
   const handleBidClickOpen = () => {
@@ -412,15 +411,22 @@ function MainScreen() {
     });
   }
   
-  //UI
-  const playerDetails = () => {
-    
+  useEffect = () => {
+    let textColour = "white";
     if(player?.colour === 'O') {
-      setTextColour("orange");
+      textColour = "orange";
     }
     else if(player?.colour === 'P'){
-      setTextColour("purple");
+      textColour = "purple";
     }
+    
+    playerDetails(textColour)
+  , []};
+
+  //UI
+  const playerDetails = (textColour) => {
+    
+    
     return(
       <>
         <span className='CompanyName' style={{color: textColour}}>{player?.name}</span>
