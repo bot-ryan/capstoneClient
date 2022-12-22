@@ -18,6 +18,7 @@ import {
 function LoadingScreenForJoin() {
     let navigate = useNavigate();
     let location = useLocation();
+    let totalPlayers = 0;
    
 
     const playSound = () =>{
@@ -92,6 +93,7 @@ function LoadingScreenForJoin() {
       //text = uniquePlayers[playerCount]?.name + " ";
       //playerCount++;
 
+      totalPlayers = playerCount;
       setPlayersText(arr => [...arr, text]);
     },[players])
 
@@ -136,14 +138,14 @@ function LoadingScreenForJoin() {
            {/* <span style={{color: randomColor}}>{playersText}</span> */}
 
            <span>
-            {playerCount === 0 && (
+            {totalPlayers === 0 && (
               <>
-              <span style={{color: 'orange'}}>{playersText[playerCount]}</span>
+              <span style={{color: 'orange'}}>{playersText[totalPlayers]}</span>
               </>
           )}
-          {playerCount === 1 && (
+          {totalPlayers === 1 && (
               <>
-              <span style={{color: 'blue'}}>{playersText[playerCount]}</span>
+              <span style={{color: 'blue'}}>{playersText[totalPlayers]}</span>
               </>
           )}
           </span>
