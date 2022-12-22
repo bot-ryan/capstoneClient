@@ -94,8 +94,8 @@ function LoadingScreenForJoin() {
       //playerCount++;
 
       totalPlayers = playerCount;
-      // setPlayersText(arr => [...arr, text]);
-      setPlayersText(text);
+      setPlayersText(arr => [...arr, text]);
+      //setPlayersText(text);
     },[players])
 
     const waitStart = async() => {
@@ -139,14 +139,14 @@ function LoadingScreenForJoin() {
            {/* <span style={{color: randomColor}}>{playersText}</span> */}
 
            <span>
-            {totalPlayers === 0 && (
+            {playersText[0] !== null && (
               <>
-              <span style={{color: 'orange'}}>{playersText}</span>
+              <span style={{color: 'orange'}}>{playersText[0]}</span>
               </>
           )}
-          {totalPlayers === 1 && (
+          {playersText[1] !== null && (
               <>
-              <span style={{color: 'blue'}}>{playersText}</span>
+              <span style={{color: 'blue'}}>{playersText[1]}</span>
               </>
           )}
           </span>
