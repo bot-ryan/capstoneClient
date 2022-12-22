@@ -140,12 +140,12 @@ function LoadingScreenForJoin() {
            <span>
             {totalPlayers === 0 && (
               <>
-              <span style={{color: 'orange'}}>{playersText[totalPlayers]}</span>
+              <span style={{color: 'orange'}}>{playersText}</span>
               </>
           )}
           {totalPlayers === 1 && (
               <>
-              <span style={{color: 'blue'}}>{playersText[totalPlayers]}</span>
+              <span style={{color: 'blue'}}>{playersText}</span>
               </>
           )}
           </span>
