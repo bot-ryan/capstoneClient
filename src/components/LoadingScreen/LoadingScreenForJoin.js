@@ -98,6 +98,10 @@ function LoadingScreenForJoin() {
       //setPlayersText(text);
     },[players])
 
+    useEffect(()=>{
+      console.log("Render me again when player text changes");
+    },[playersText])
+
     const waitStart = async() => {
       var start = false;
       while(!start){
@@ -132,7 +136,7 @@ function LoadingScreenForJoin() {
         <Grid item xs={12}>
           <span className="GameName" onClick={() => navigate(`${HOME_SCREEN}`)}>Oil Corps</span>
           <br/>
-          <span className="GamePin">Game Pin: {game?.gamePin}</span>
+          <span className="GamePin" onClick={() => {navigator.clipboard.writeText(game?.gamePin)}}>Game Pin: {game?.gamePin}</span>
         </Grid>
         <Grid item xs={12}>
 
@@ -149,7 +153,7 @@ function LoadingScreenForJoin() {
               <span style={{color: 'orange'}}>{playersText[1]}</span>
               </>
           )}
-           {playersText[2] !== playersText[1] && (
+           {playersText[2] !== null && (
               <>
               <span style={{color: 'blue'}}>{playersText[2]}</span>
               </>
