@@ -32,6 +32,14 @@ function LoadingScreenForJoin() {
     const [players, setPlayers] = useState([]);
     const [playersText, setPlayersText] = useState([]);
     const [copy, setCopy] = useState(<ContentCopyIcon />);
+    const [randomColor, setRandomColor] = useState("blue");
+
+
+    useEffect(() => {
+      const colors = ["orange", "green", "white", "red"];
+      var pickColor = colors[Math.floor(Math.random() * colors.length)];
+      setRandomColor(pickColor);
+    }, [])
 
     const copyText = async () => {
       await navigator.clipboard.writeText(game?.gamePin);
