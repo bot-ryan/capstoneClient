@@ -416,7 +416,7 @@ function MainScreen() {
   const playerDetails = () => {
     return(
       <>
-        <span className='CompanyName'>{player?.name}</span>
+        <span className='CompanyName' style={{color: player?.colour}}>{player?.name}</span>
         <span className='Capital'>${player?.capital * 1000}</span>
         <Avatar sx={{ bgcolor: (
           (player?.colour == Colour.ORANGE) ? deepOrange[500] : 
