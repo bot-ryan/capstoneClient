@@ -70,20 +70,25 @@ function LoadingScreenForJoin() {
         ))
       )
 
-      if(uniquePlayers?.length >= 1) {
+      //fix this later
+
+      // if(uniquePlayers?.length >= 1) {
         
-        playerCount++;
-        text = players[0]?.name;
-       // text = "player" + playerCount;
+      //   playerCount++;
+      //   text = players[0]?.name;
+      //  // text = "player" + playerCount;
         
-      }
-      for (let i = 1; i < uniquePlayers?.length; i++) {
-        //text += " | " + uniquePlayers[i]?.name;
-        playerCount++;
-       text = uniquePlayers[i]?.name;
-       //text = "player" + playerCount;
+      // }
+      // for (let i = 1; i < uniquePlayers?.length; i++) {
+      //   //text += " | " + uniquePlayers[i]?.name;
+      //   playerCount++;
+      //  text = uniquePlayers[i]?.name;
+      //  //text = "player" + playerCount;
         
-      }
+      // }
+
+      text = uniquePlayers[playerCount]?.name + " ";
+      playerCount++;
 
       setPlayersText(arr => [...arr, text]);
     },[players])
