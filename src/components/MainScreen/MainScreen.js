@@ -411,10 +411,10 @@ function MainScreen() {
       console.log(error)
     });
   }
-
+  const [textColour, setTextColour] = useState("white");
   //UI
   const playerDetails = () => {
-    const [textColour, setTextColour] = useState("white");
+    
     if(player?.colour === 'O') {
       setTextColour("orange");
     }
