@@ -426,7 +426,7 @@ function MainScreen() {
   // , []};
 
   //UI
-  const playerDetails = (textColour) => {
+  const playerDetails = () => {
     let textColour = "white";
     if(player?.colour === 'O') {
       textColour = "orange";
