@@ -18,7 +18,7 @@ import {
 function LoadingScreenForJoin() {
     let navigate = useNavigate();
     let location = useLocation();
-    let playerCount = 0;
+   
 
     const playSound = () =>{
       new Audio(audio).play();
@@ -62,6 +62,7 @@ function LoadingScreenForJoin() {
 
     //Show all players in waiting room
     useEffect(() => {
+      let playerCount = 0;
       let text = "";
       //remove duplicate players
       let uniquePlayers = players.filter((value, index, self) =>
@@ -81,14 +82,15 @@ function LoadingScreenForJoin() {
       }
       for (let i = 1; i < uniquePlayers?.length; i++) {
         //text += " | " + uniquePlayers[i]?.name;
-        //playerCount++;
+        playerCount++;
        text = uniquePlayers[i]?.name;
        //text = "player" + playerCount;
         
       }
 
-      text = uniquePlayers[playerCount]?.name + " ";
-      playerCount++;
+      text += " ";
+      //text = uniquePlayers[playerCount]?.name + " ";
+      //playerCount++;
 
       setPlayersText(arr => [...arr, text]);
     },[players])
@@ -136,12 +138,12 @@ function LoadingScreenForJoin() {
            <span>
             {playerCount === 0 && (
               <>
-              <span style={{color: 'orange'}}>{playersText[playerCount++]}</span>
+              <span style={{color: 'orange'}}>{playersText[playerCount]}</span>
               </>
           )}
           {playerCount === 1 && (
               <>
-              <span style={{color: 'blue'}}>{playersText[playerCount++]}</span>
+              <span style={{color: 'blue'}}>{playersText[playerCount]}</span>
               </>
           )}
           </span>
